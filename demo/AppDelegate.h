@@ -12,10 +12,9 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property(nonatomic,copy)NSString * strlatitude; //经度
+@property (nonatomic, copy) NSString *strlatitude; //经度
 
-@property(nonatomic,copy)NSString *strlongitude;//纬度
-
+@property (nonatomic, copy) NSString *strlongitude;//纬度
 
 
 @end

@@ -47,6 +47,14 @@
 #import "AnalyticPlistData.h"
 #import "NetworkRequest.h"
 #import "AppDelegate.h"
+#import <CoreLocation/CoreLocation.h>
+#import "NSString+Transcoding.h"
+#import "UploadDataManager.h"
+#import "UploadParametersModel.h"
+#import "RegionModel.h"
+#import "MyDIYHeader.h"
+#import "MyRefreshProgressView.h"
+#import "SortBtn.h"
 
 #define DEFAULTREGINNAME @"區域" //区域默认名称
 #define JIEYUNNAME @"捷運" //捷运默认名称

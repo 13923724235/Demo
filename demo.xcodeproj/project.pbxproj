@@ -25,6 +25,8 @@
 		BD42D0CE21225C4A0047F283 /* MyDIYHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = BD42D0CD21225C4A0047F283 /* MyDIYHeader.m */; };
 		BD42D0D121227BAB0047F283 /* MyRefreshProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = BD42D0D021227BAB0047F283 /* MyRefreshProgressView.m */; };
 		BD42D0D82122A45F0047F283 /* SortBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = BD42D0D72122A45F0047F283 /* SortBtn.m */; };
+		BDB5EBE92123CD8200A1EB65 /* LeaseViewMooel.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB5EBE82123CD8200A1EB65 /* LeaseViewMooel.m */; };
+		BDB5EBEC2123FF9500A1EB65 /* MyDIYRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB5EBEB2123FF9500A1EB65 /* MyDIYRefresh.m */; };
 		BDBC1935211BD5D7009A0F41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDBC1934211BD5D7009A0F41 /* CoreLocation.framework */; };
 		BDBC193C211C1FEC009A0F41 /* HistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBC193B211C1FEC009A0F41 /* HistoryCell.m */; };
 		BDBC193F211C2785009A0F41 /* PriceRangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBC193E211C2785009A0F41 /* PriceRangeView.m */; };
@@ -100,6 +102,10 @@
 		BD42D0D021227BAB0047F283 /* MyRefreshProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyRefreshProgressView.m; sourceTree = "<group>"; };
 		BD42D0D62122A45F0047F283 /* SortBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortBtn.h; sourceTree = "<group>"; };
 		BD42D0D72122A45F0047F283 /* SortBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortBtn.m; sourceTree = "<group>"; };
+		BDB5EBE72123CD8200A1EB65 /* LeaseViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaseViewModel.h; sourceTree = "<group>"; };
+		BDB5EBE82123CD8200A1EB65 /* LeaseViewMooel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeaseViewMooel.m; sourceTree = "<group>"; };
+		BDB5EBEA2123FF9500A1EB65 /* MyDIYRefresh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyDIYRefresh.h; sourceTree = "<group>"; };
+		BDB5EBEB2123FF9500A1EB65 /* MyDIYRefresh.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyDIYRefresh.m; sourceTree = "<group>"; };
 		BDBC1934211BD5D7009A0F41 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		BDBC193A211C1FEC009A0F41 /* HistoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryCell.h; sourceTree = "<group>"; };
 		BDBC193B211C1FEC009A0F41 /* HistoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryCell.m; sourceTree = "<group>"; };
@@ -212,6 +218,7 @@
 			children = (
 				BDE4C07C21196B9600A84149 /* Model */,
 				BDEA97812118680C00564C65 /* View */,
+				BDB5EBE62123CD4E00A1EB65 /* ViewModel */,
 				BD42D0D3212285EF0047F283 /* LeaseVC */,
 			);
 			path = Lease;
@@ -264,6 +271,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		BDB5EBE62123CD4E00A1EB65 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BDB5EBE72123CD8200A1EB65 /* LeaseViewModel.h */,
+				BDB5EBE82123CD8200A1EB65 /* LeaseViewMooel.m */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BDE4C07C21196B9600A84149 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +314,8 @@
 				BD024428211B165A00DBE537 /* Toast */,
 				BD3FDDCB211D6E52006A704A /* NetworkRequest.h */,
 				BD3FDDCC211D6E52006A704A /* NetworkRequest.m */,
+				BDB5EBEA2123FF9500A1EB65 /* MyDIYRefresh.h */,
+				BDB5EBEB2123FF9500A1EB65 /* MyDIYRefresh.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -616,9 +634,11 @@
 				BDE4C0832119726A00A84149 /* RentingCell.m in Sources */,
 				BDEA9780211866A500564C65 /* MainViewController.m in Sources */,
 				BD024411211ADFF500DBE537 /* TypeView.m in Sources */,
+				BDB5EBEC2123FF9500A1EB65 /* MyDIYRefresh.m in Sources */,
 				BD3FDDCD211D6E52006A704A /* NetworkRequest.m in Sources */,
 				BD3FDDD0211D8527006A704A /* AnalyticPlistData.m in Sources */,
 				BD024431211B165A00DBE537 /* UIView+Toast.m in Sources */,
+				BDB5EBE92123CD8200A1EB65 /* LeaseViewMooel.m in Sources */,
 				BDE4C07F21196BD400A84149 /* DataModel.m in Sources */,
 				BD024414211AE77000DBE537 /* RentView.m in Sources */,
 				BD42D0CE21225C4A0047F283 /* MyDIYHeader.m in Sources */,

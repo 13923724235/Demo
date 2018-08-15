@@ -34,7 +34,6 @@
 {
     NSInteger secondListCount; //第二列表个数
     NSInteger threeListCount;  //第三列表个数
-    
     NSInteger recordSelectIndex; //第二列表点击下标
     
 }

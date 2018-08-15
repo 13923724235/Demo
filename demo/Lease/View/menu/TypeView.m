@@ -140,8 +140,6 @@
                 self.sendTitleBlock(tempmodel.titleName);
             }
 
-        
-            
             if (self.sendUploadDataBlock)
             {
                 NSMutableDictionary * dic =[[NSMutableDictionary alloc] init];

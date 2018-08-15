@@ -116,8 +116,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor =[UIColor whiteColor];
-    
-   
+
      self.edgesForExtendedLayout = UIRectEdgeNone;//让布局从(0,64)以后布局
      self.page = 1;
     
@@ -148,9 +147,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 - (void)creatNaviagtionBar
 {
     self.navigationController.navigationBar.translucent = NO;
-    
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-    
     [self.navigationController.navigationBar setBarTintColor:[UIColor orangeColor]];
     
     UIButton * backicon =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 13.0f, 20.0f)];
@@ -195,39 +192,28 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 //加载菜单
 -(void)createMenuView
 {
-
     WeakSelf(weakSelf)
     NSArray * titleArray =@[@"區域",@"類型",@"租金",@"更多"];
-
     NSMutableArray * reginAllTitleArray =[[NSMutableArray alloc] init];
-
     NSArray * reTitleArray=@[@"區域",@"捷運",@"附近"];
 
-    for (int i = 0;i < reTitleArray.count; i++)
-    {
+    for (int i = 0;i < reTitleArray.count; i++){
+        
         NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
-
-        if (i == 0)
-        {
+        if (i == 0){
             [dic setObject:@"1" forKey:@"Select"];
         }
-        else
-        {
+        else{
             [dic setObject:@"0" forKey:@"Select"];
         }
-
         [dic setObject:reTitleArray[i] forKey:@"TitleName"];
-
         [reginAllTitleArray addObject:dic];
-
     }
 
     NSMutableArray * allReginArray =[[NSMutableArray alloc] init];
-
     NSMutableArray * reginArray = [[AnalyticPlistData shareInstance] getReginPlistData];
     NSMutableArray * jieyunArray = [[AnalyticPlistData shareInstance] getJieYunPlistData];
     NSMutableArray * nearbyArray = [[AnalyticPlistData shareInstance] getNearByPlistData];
-
     [allReginArray addObject:reginArray];
     [allReginArray addObject:jieyunArray];
     [allReginArray addObject:nearbyArray];
@@ -245,7 +231,6 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     //租金数据
     NSMutableArray * priceArray = [[AnalyticPlistData shareInstance] getRentPricePlistData];
 
-
     [Menu getrRegionRawDataWithDefaultArr:reginAllTitleArray reginAllArray:allReginArray typeArray:typeArray rentArray:priceArray];
 
     Menu.backRrginDataBlock = ^(NSMutableDictionary * uploadDic)//上传区域数据
@@ -262,7 +247,6 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     {
         [weakSelf modelDataEndowingWithDic:uploadDic withDataType:RentHandleType];
     };
-
 }
 //数据赋予
 -(void)modelDataEndowingWithDic:(NSMutableDictionary *)dic withDataType:(ModelHandleType)type
@@ -306,26 +290,27 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
         
     }];
     
-
-    //上拉 触发加载更多
-    MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    [[MyDIYRefresh shareRefresh] refreshView:self.listTableView refreshType:RefreshTypeDIYHeaderWithFooter headerRefreshBlock:^{
+        
+        weakSelf.page = 1;
+        [weakSelf.dataArray removeAllObjects];
+        weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)self.page];
+        [weakSelf getListRequest];
+        
+    } footerRefreshBlock:^{
+        
         weakSelf.page++;
         weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)weakSelf.page];
-        [weakSelf newRequestData];
-
+        [weakSelf getListRequest];
+        
     }];
     
-    self.listTableView.mj_header = [MyDIYHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];;
-    self.listTableView.mj_footer = footer;
     self.listTableView.mj_footer.ignoredScrollViewContentInsetBottom = KIsiPhoneX ? 34 : 0;
-    
     [self.view addSubview:self.sortBtn];
     
     CGFloat bottomH = KIsiPhoneX?180:140;
-    
     self.sortBtn.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-80, CGRectGetMaxY(self.view.frame)-bottomH, 60, 30);
     
-
 }
 #pragma mark Click Events
 
@@ -445,77 +430,53 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 //下拉刷新数据
 -(void)loadNewData
 {
-    self.page = 1;
-    [self.dataArray removeAllObjects];
-    self.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)self.page];
-    [self newRequestData];
-}
 
-#pragma mark Network Request
--(void)newRequestData
+}
+#pragma mark 网络请求
+-(void)getListRequest
 {
     WeakSelf(weakSelf)
     
-    NSString * url = [UploadParametersModel incomingDataModel:self.upLoadModel];
+    LeaseViewModel * leaseModel = [[LeaseViewModel alloc] init];
     
-    NetworkRequest * network = [NetworkRequest shareInstance];
-    
-    [network getRequestUrlStr:url success:^(id responseObject) {
+    [leaseModel setBlockWithRequestType:ListRequest withSuccessBlock:^(NSMutableDictionary *dic) {
+        
+        if (dic) {
 
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject
-                                                            options:NSJSONReadingMutableContainers
-                                                              error:nil];
-        
-        NSDictionary * data = dic[@"data"];
-        
-        NSArray * item = data[@"items"];
-        
-        NSString * records = data[@"records"];
-
-        NSLog(@"请求成功------数据条数--%lu",(unsigned long)item.count);
-        
-        if (records.length > 0 && weakSelf.page == 1)
-        {
-            [weakSelf.view makeToast:[NSString stringWithFormat:@"共%@比物件",records] duration:2.0f position:[NSValue valueWithCGPoint:weakSelf.view.center]];
-            weakSelf.TotalNumber = records.integerValue;
-        }
-        
-       
-
-        if (item.count > 0)
-        {
-            for (NSDictionary * temp in item)
+             NSString * records = dic[@"records"];
+            NSMutableArray * dataArray =dic[@"modelArray"];
+            
+            if (records.length > 0 && weakSelf.page == 1){
+                [weakSelf.view makeToast:[NSString stringWithFormat:@"共%@比物件",records] duration:2.0f position:[NSValue valueWithCGPoint:weakSelf.view.center]];
+                weakSelf.TotalNumber = records.integerValue;
+                weakSelf.dataArray = dataArray;
+            }
+            else
             {
-
-                DataModel * model = [DataModel yy_modelWithDictionary:temp];
-
-                [weakSelf.dataArray addObject:model];
+                  [weakSelf.dataArray addObjectsFromArray:dataArray];
+            }
+            
+            if (weakSelf.dataArray.count >= records.integerValue){
+                [weakSelf.listTableView.mj_footer setHidden:YES];
+            }
+            else{
+                [weakSelf.listTableView.mj_footer setHidden:NO];
             }
         }
         
-        if (weakSelf.dataArray.count >= records.integerValue)
-        {
-               [weakSelf.listTableView.mj_footer setHidden:YES];
-        }
-        else
-        {
-            [weakSelf.listTableView.mj_footer setHidden:NO];
-        }
-
         [weakSelf.listTableView.mj_header endRefreshing];
         [weakSelf.listTableView.mj_footer endRefreshing];
         [weakSelf.listTableView reloadData];
         
-    } failure:^(NSString *errorInfo) {
-
-        NSLog(@"请求失败");
+    } withFailureBlock:^(NSString *error) {
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [weakSelf.listTableView.mj_header endRefreshing];
             [weakSelf.listTableView.mj_footer endRefreshing];
         });
-        
     }];
     
+    [leaseModel getLeaseListDataWithModel:self.upLoadModel];
 }
 
 #pragma mark ----- DZNEmptyDataSetSource

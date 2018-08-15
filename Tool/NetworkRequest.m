@@ -37,7 +37,7 @@ static NetworkRequest *requestManager;
                  success:(successBlock)success
                  failure:(failureBlock)failure
 {
-    [self requestWithUrl:urlStr withDic:nil requestType:RequestTypeGet isCache:NO cacheKey:nil imageKey:nil withData:nil upLoadProgress:nil success:^(id responseObject) {
+    [self requestWithUrl:urlStr withDic:nil requestType:RequestTypeGet isCache:NO cacheKey:nil upLoadProgress:nil success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSString *errorInfo) {
         failure(@"请求失败");
@@ -50,7 +50,7 @@ static NetworkRequest *requestManager;
                   success:(successBlock)success
                   failure:(failureBlock)failure
 {
-    [self requestWithUrl:urlStr withDic:parameters requestType:RequestTypePost isCache:NO cacheKey:nil imageKey:nil withData:nil upLoadProgress:nil success:^(id responseObject) {
+    [self requestWithUrl:urlStr withDic:parameters requestType:RequestTypePost isCache:NO cacheKey:nil upLoadProgress:nil success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSString *errorInfo) {
         failure(@"请求失败");
@@ -58,7 +58,13 @@ static NetworkRequest *requestManager;
     
 }
 #pragma mark -- Processing Network
--(void)requestWithUrl:(NSString *)url withDic:(NSDictionary *)parameters requestType:(RequestType)requestType  isCache:(BOOL)isCache  cacheKey:(NSString *)cacheKey imageKey:(NSString *)attach withData:(NSData *)data upLoadProgress:(loadProgress)loadProgress success:(successBlock)success failure:(failureBlock)failure
+/**
+ *  多余字段留给扩展使用
+ *  @param isCache  是否做缓存
+ *  @param cacheKey  缓存key 以url为key存储
+ *  @param loadProgress 进度条
+ */
+-(void)requestWithUrl:(NSString *)url withDic:(NSDictionary *)parameters requestType:(RequestType)requestType  isCache:(BOOL)isCache  cacheKey:(NSString *)cacheKey upLoadProgress:(loadProgress)loadProgress success:(successBlock)success failure:(failureBlock)failure
 {
     
     AFHTTPSessionManager * manager =[AFHTTPSessionManager manager];
@@ -69,7 +75,7 @@ static NetworkRequest *requestManager;
     if (requestType == RequestTypeGet)
     {
         
-        [manager GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             

@@ -55,6 +55,8 @@
 #import "MyDIYHeader.h"
 #import "MyRefreshProgressView.h"
 #import "SortBtn.h"
+#import "LeaseViewModel.h"
+#import "MyDIYRefresh.h"
 
 #define DEFAULTREGINNAME @"區域" //区域默认名称
 #define JIEYUNNAME @"捷運" //捷运默认名称

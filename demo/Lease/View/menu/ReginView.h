@@ -43,4 +43,9 @@ typedef NS_ENUM(NSInteger, ReginListSelectTpye) {
  */
 - (void)removeNearbyData;
 
+/**
+ * 视图隐藏
+ */
+- (void)currentViewIsHidden:(BOOL)isHiden;
+
 @end

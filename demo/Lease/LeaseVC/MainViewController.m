@@ -16,6 +16,16 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "SortView.h"
+
+// 数据处理类型
+typedef NS_ENUM(NSInteger, ModelHandleType) {
+    RentHandleType,
+    typeHandleType,
+    regionHandleType,
+    sortHandleType,
+};
+
+
 @interface MainViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray; //装数据
@@ -36,6 +46,7 @@
 {
     SearchView *Seview; //搜索
     MenuView *Menu; //菜单
+
 }
 
 #pragma mark Lazy load
@@ -239,58 +250,45 @@
 
     Menu.backRrginDataBlock = ^(NSMutableDictionary * uploadDic)//上传区域数据
     {
-        [weakSelf.dataArray removeAllObjects];
-        
-        weakSelf.page = 1;
-        
-        NSMutableDictionary * dic = [uploadDic copy];
-        
-        if (dic)
-        {
-           weakSelf.upLoadModel = [UploadDataManager uploadRegionDataWithModel:weakSelf.upLoadModel WithDic:dic];
-            
-            weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)weakSelf.page];
-        }
-        
-         [weakSelf.listTableView.mj_header beginRefreshing];
+       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:regionHandleType];
     };
     
     Menu.backTypeDataBlock = ^(NSMutableDictionary *uploadDic)//上传类型数据
     {
-        [weakSelf.dataArray removeAllObjects];
-        
-        weakSelf.page = 1;
-        
-        NSMutableDictionary * dic = [uploadDic copy];
-        
-        if (dic)
-        {
-            weakSelf.upLoadModel = [UploadDataManager uploadTypeDataWithModel:weakSelf.upLoadModel WithDic:dic];
-            
-            weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)weakSelf.page];
-        }
-        
-         [weakSelf.listTableView.mj_header beginRefreshing];
+       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:typeHandleType];
     };
     
     Menu.backRentDataBlock = ^(NSMutableDictionary *uploadDic)//上传租金数据
     {
-        [weakSelf.dataArray removeAllObjects];
-        
-        weakSelf.page = 1;
-        
-        NSMutableDictionary * dic = [uploadDic copy];
-        
-        if (dic)
-        {
-            weakSelf.upLoadModel = [UploadDataManager uploadRentDataWithModel:weakSelf.upLoadModel WithDic:dic];
-            
-            weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)weakSelf.page];
-        }
-        
-         [weakSelf.listTableView.mj_header beginRefreshing];
+        [weakSelf modelDataEndowingWithDic:uploadDic withDataType:RentHandleType];
     };
 
+}
+//数据赋予
+-(void)modelDataEndowingWithDic:(NSMutableDictionary *)dic withDataType:(ModelHandleType)type
+{
+    [self.dataArray removeAllObjects];
+    self.page = 1;
+    
+    if (dic)
+    {
+        if(type == RentHandleType){
+            self.upLoadModel = [UploadDataManager uploadRentDataWithModel:self.upLoadModel WithDic:dic];
+        }
+        else if (type ==typeHandleType){
+             self.upLoadModel = [UploadDataManager uploadTypeDataWithModel:self.upLoadModel WithDic:dic];
+        }
+        else if (type ==regionHandleType){
+            self.upLoadModel = [UploadDataManager uploadRegionDataWithModel:self.upLoadModel WithDic:dic];
+        }
+        else if (type ==sortHandleType){
+            self.upLoadModel = [UploadDataManager uploadSortDataWithModel:self.upLoadModel WithDic:dic];
+        }
+        
+        self.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)self.page];
+    }
+    
+    [self.listTableView.mj_header beginRefreshing];
 }
 
 -(void)createUI
@@ -342,26 +340,11 @@
       
       sort.sendUploadDataBlock = ^(NSMutableDictionary *uploadDic)//上传排序数据
       {
-          [weakSelf.dataArray removeAllObjects];
-          
-          weakSelf.page = 1;
-          
-          NSMutableDictionary * dic = [uploadDic copy];
-          
-          if (dic)
-          {
-              weakSelf.upLoadModel = [UploadDataManager uploadSortDataWithModel:weakSelf.upLoadModel WithDic:dic];
-              
-              weakSelf.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)weakSelf.page];
-          }
-          
-          [weakSelf.listTableView.mj_header beginRefreshing];
-          
+          [weakSelf modelDataEndowingWithDic:uploadDic withDataType:sortHandleType];
       };
       AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
       [myDelegate.window addSubview:sort];
-
 
 }
 

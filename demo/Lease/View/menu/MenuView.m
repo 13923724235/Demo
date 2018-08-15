@@ -26,15 +26,16 @@
 
 @property (nonatomic, strong) UIView *TriangleView; //三角形图标
 
+@property (nonatomic, strong) TypeView *typeView; //类型view
+
+@property (nonatomic, strong) RentView *rentView; //租金view
 
 @end
 
 @implementation MenuView
 {
     ReginView *reginView; //区域部分view
-    TypeView *typeview; //类型view
-    RentView *rentview; //租金view
-
+    
     NSMutableArray *reginTitleDaraArray;//区域模块标题数据
     NSMutableArray *regonAllDaraArray; //区域列表数据
     NSMutableArray *typeAllDataArray; //类型列表数据
@@ -43,6 +44,29 @@
 }
 
 #pragma mark Lazy load
+
+-(TypeView *)typeView
+{
+    if (!_typeView)
+    {
+        _typeView = [[TypeView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.TriangleView.frame)-2, SCREEN_WIDTH, SCREEN_HEIGHT/2)withListData:typeAllDataArray];
+        [_typeView currentViewIsHidden:YES];
+    }
+    
+    return _typeView;
+}
+
+-(RentView *)rentView
+{
+    if (!_rentView)
+    {
+        _rentView = [[RentView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.TriangleView.frame)-2, SCREEN_WIDTH, SCREEN_HEIGHT/2) withListData:rentAllDataArray];
+        [_rentView currentViewIsHidden:YES];
+    }
+    
+    return _rentView;
+}
+
 -(NSMutableArray *)defaultArray
 {
     if (!_defaultArray)
@@ -119,7 +143,7 @@
         self.backgroundColor =[UIColor whiteColor];
     
         [self createMenuView];
-        
+       
      
     }
     
@@ -135,8 +159,10 @@
     regonAllDaraArray= [[NSMutableArray alloc] initWithArray:reginAllArray];
     typeAllDataArray = [[NSMutableArray alloc] initWithArray:typeArray];
     rentAllDataArray = [[NSMutableArray alloc] initWithArray:rentArray];
-}
 
+    [self createOtherView];
+}
+//创建菜单数据
 -(void)createMenuView
 {
     for (int i = 0; i < 4; i++)
@@ -163,9 +189,44 @@
     
     [self.superview addSubview:self.TriangleView];
     
-
-  
 }
+//创建其他视图
+-(void)createOtherView
+{
+    WeakSelf(weakSelf)
+    
+    self.typeView.sendUploadDataBlock = ^(NSMutableDictionary *uploadDic)
+    {
+        if (uploadDic)
+        {
+            if (weakSelf.backTypeDataBlock)
+            {
+                weakSelf.backTypeDataBlock(uploadDic);
+            }
+        }
+        
+    };
+    
+    self.rentView.sendDataBlock = ^{
+        
+        [weakSelf transparentClick];
+        
+    };
+    self.rentView.sendUploadDataBlock=^(NSMutableDictionary *uploadDic)
+    {
+        if (uploadDic)
+        {
+            if (weakSelf.backRentDataBlock)
+            {
+                weakSelf.backRentDataBlock(uploadDic);
+            }
+        }
+    };
+    
+    [self.superview addSubview:self.rentView];
+    [self.superview addSubview:self.typeView];
+}
+
 #pragma mark Click Events
 //菜单按钮点击事件
 - (void)clickEventMenu:(MyselfBtn *)button
@@ -190,7 +251,6 @@
         {
 
             reginView =[[ReginView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.TriangleView.frame)-2, SCREEN_WIDTH, SCREEN_HEIGHT/2) withTitleData:reginTitleDaraArray withReginListData:regonAllDaraArray];
-
 
             reginView.sendDataBlock = ^()
             {
@@ -233,118 +293,57 @@
                 [reginView removeNearbyData];
             }
             
-            
             [self.superview addSubview:reginView];
         }
         else
         {
-          
              reginView.hidden = NO;
-           
         }
-        
-     
-        
-        typeview.hidden = YES;
-        rentview.hidden = YES;
+        [self.typeView currentViewIsHidden:YES];
+        [self.rentView currentViewIsHidden:YES];
     }
     else if (button.tag == 101)//类型部分
     {
-       
-        
-        if (typeview == nil)
-        {
+        self.typeView.sendTitleBlock = ^(NSString *name) {
 
-            typeview =[[TypeView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.TriangleView.frame)-2, SCREEN_WIDTH, SCREEN_HEIGHT/2)withListData:typeAllDataArray];
-            
-            typeview.sendTitleBlock = ^(NSString *name) {
-                
-                if ([name isEqualToString:UNLIMITEDNAME])
-                {
-                   
-                    [weakSelf btnAnmAnimationChangeSecond:button WithName:TYPENAME];
-                }
-                else
-                {
-                    [weakSelf btnAnmAnimationChangeFirst:button WithName:name];
-                
-                }
-                
-                [weakSelf transparentClick];
-       
-            };
-            
-            typeview.sendUploadDataBlock = ^(NSMutableDictionary *uploadDic)
-            {
-                if (uploadDic)
-                {
-                    if (weakSelf.backTypeDataBlock)
-                    {
-                        weakSelf.backTypeDataBlock(uploadDic);
-                    }
-                }
-             
-            };
-            
-             [self.superview addSubview:typeview];
+        if ([name isEqualToString:UNLIMITEDNAME])
+        {
+            [weakSelf btnAnmAnimationChangeSecond:button WithName:TYPENAME];
         }
         else
         {
-            typeview.hidden = NO;
+            [weakSelf btnAnmAnimationChangeFirst:button WithName:name];
         }
-        
-         reginView.hidden = YES;
-         rentview.hidden = YES;
+            
+        [weakSelf transparentClick];
+
+        };
+
+        [self.typeView currentViewIsHidden:NO];
+
+        reginView.hidden = YES;
+        [self.rentView currentViewIsHidden:YES];
     }
     else if (button.tag == 102)//租金部分
     {
-        if (rentview == nil)
+        self.rentView.sendTitleBlock = ^(NSString *name) {
+
+        if ([name isEqualToString:UNLIMITEDNAME])
         {
-
-            rentview =[[RentView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.TriangleView.frame)-2, SCREEN_WIDTH, SCREEN_HEIGHT/2) withListData:rentAllDataArray];
-            
-            rentview.sendTitleBlock = ^(NSString *name) {
-                
-                if ([name isEqualToString:UNLIMITEDNAME])
-                {
-
-                  [weakSelf btnAnmAnimationChangeSecond:button WithName:RENTNAME];
-                }
-                else
-                {
-                    [weakSelf btnAnmAnimationChangeFirst:button WithName:name];
-                }
-                
-                [weakSelf transparentClick];
-                
-            };
-            
-            rentview.sendDataBlock = ^{
-                
-                 [weakSelf transparentClick];
-
-            };
-            
-            rentview.sendUploadDataBlock=^(NSMutableDictionary *uploadDic)
-            {
-                if (uploadDic)
-                {
-                    if (weakSelf.backRentDataBlock)
-                    {
-                        weakSelf.backRentDataBlock(uploadDic);
-                    }
-                }
-            };
-            
-            [self.superview addSubview:rentview];
+            [weakSelf btnAnmAnimationChangeSecond:button WithName:RENTNAME];
         }
         else
         {
-            rentview.hidden = NO;
+            [weakSelf btnAnmAnimationChangeFirst:button WithName:name];
         }
-        
+            
+        [weakSelf transparentClick];
+
+        };
+
+        [self.rentView currentViewIsHidden:NO];
         reginView.hidden = YES;
-        typeview.hidden = YES;
+        [self.typeView currentViewIsHidden:YES];
     }
    
 }
@@ -354,13 +353,13 @@
 {
     [UIView animateWithDuration:0.3f animations:^{
 
-             button.btnTitle.text = name;
-             button.btnTitle.textColor =[UIColor jk_colorWithHexString:@"ff7800"];
-            button.imgArrow.image = [UIImage imageNamed:@"downOrangeArrow.png"];
-            CGAffineTransform imgtransform= CGAffineTransformMakeRotation(M_PI);
-            button.imgArrow.transform = imgtransform;
-            
-            [button layoutSubviews];
+        button.btnTitle.text = name;
+        button.btnTitle.textColor =[UIColor jk_colorWithHexString:@"ff7800"];
+        button.imgArrow.image = [UIImage imageNamed:@"downOrangeArrow.png"];
+        CGAffineTransform imgtransform= CGAffineTransformMakeRotation(M_PI);
+        button.imgArrow.transform = imgtransform;
+
+        [button layoutSubviews];
 
     } completion:^(BOOL finished) {
         
@@ -406,11 +405,11 @@
 
      [UIView animateWithDuration:1.5f animations:^{
          
-          self.transparentView.hidden = YES;
-         self.TriangleView.hidden = YES;
-         strongSelf->reginView.hidden = YES;
-         strongSelf->typeview.hidden = YES;
-         strongSelf->rentview.hidden = YES;
+        self.transparentView.hidden = YES;
+        self.TriangleView.hidden = YES;
+        strongSelf->reginView.hidden = YES;
+        weakSelf.typeView.hidden = YES;
+        weakSelf.rentView.hidden = YES;
          
      } completion:^(BOOL finished) {
          

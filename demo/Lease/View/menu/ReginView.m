@@ -205,6 +205,17 @@
 
 }
 
+//是否隐藏
+- (void)currentViewIsHidden:(BOOL)isHiden
+{
+    if (isHiden){
+        self.hidden = YES;
+    }
+    else{
+        self.hidden = NO;
+    }
+}
+
 #pragma  mark Tableview Delegate
 - (CGFloat )tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -84,50 +84,50 @@
 
 -(void)creteUI
 {
-    
     self.firstTbaleView.hidden = NO;
-    
     self.firstTbaleView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame)-BootomHeight);
-
     [self addSubview:self.firstTbaleView];
-    
-     self.priceRangeView.frame = CGRectMake(0, CGRectGetMaxY(self.firstTbaleView.frame), SCREEN_WIDTH, BootomHeight);
-    
+    self.priceRangeView.frame = CGRectMake(0, CGRectGetMaxY(self.firstTbaleView.frame), SCREEN_WIDTH, BootomHeight);
     [self addSubview:self.priceRangeView];
     
-    
-    
-   
 }
+
+//是否隐藏
+- (void)currentViewIsHidden:(BOOL)isHiden
+{
+    if (isHiden){
+        self.hidden = YES;
+    }
+    else{
+        self.hidden = NO;
+    }
+}
+
 
 #pragma mark Click Events
 -(void)determineBtnClick
 {
     
-    if (self.priceRangeView.maximumPriceField.text.length > 0 && self.priceRangeView.minimumPriceField.text.length > 0)
-    {
-        if (self.priceRangeView.maximumPriceField.text.intValue < self.priceRangeView.minimumPriceField.text.intValue)
-        {
+    if (self.priceRangeView.maximumPriceField.text.length > 0 && self.priceRangeView.minimumPriceField.text.length > 0){
+        
+        if (self.priceRangeView.maximumPriceField.text.intValue < self.priceRangeView.minimumPriceField.text.intValue){
             [[[[UIApplication sharedApplication] delegate] window] makeToast:@"请输入值大于最小金额" duration:2.0f position:[NSValue valueWithCGPoint:[[[UIApplication sharedApplication] delegate] window].center]];
             
             return;
         }
     }
 
-    
-    if(self.sendDataBlock)
-    {
+    if(self.sendDataBlock){
+        
         self.sendDataBlock();
     }
-    
-    if ([self.priceRangeView.maximumPriceField.text isEqualToString:@""] && [self.priceRangeView.minimumPriceField.text isEqualToString:@""])
-    {
+
+    if ([self.priceRangeView.maximumPriceField.text isEqualToString:@""] && [self.priceRangeView.minimumPriceField.text isEqualToString:@""]){
         return;
     }
     else
     {
        
-        
         if (self.sendTitleBlock)
         {
             if ([self.priceRangeView.minimumPriceField.text isEqualToString:@""])//最小
@@ -171,10 +171,10 @@
         [self.firstTbaleView reloadData];
         
     }
-  
+
     [self.priceRangeView.minimumPriceField resignFirstResponder];
     [self.priceRangeView.maximumPriceField resignFirstResponder];
-    
+
    
     
     

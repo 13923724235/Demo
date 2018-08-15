@@ -24,4 +24,9 @@
 - (instancetype)initWithFrame:(CGRect)frame
                  withListData:(NSMutableArray *)array;
 
+/**
+ * 视图隐藏
+ */
+- (void)currentViewIsHidden:(BOOL)isHiden;
+
 @end

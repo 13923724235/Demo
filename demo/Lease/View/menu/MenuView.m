@@ -44,7 +44,7 @@
 
 #pragma mark Lazy load
 
--(ReginView *)reginView
+- (ReginView *)reginView
 {
     if (!_reginView)
     {
@@ -54,7 +54,7 @@
     return _reginView;
 }
 
--(TypeView *)typeView
+- (TypeView *)typeView
 {
     if (!_typeView)
     {
@@ -64,7 +64,7 @@
     return _typeView;
 }
 
--(RentView *)rentView
+- (RentView *)rentView
 {
     if (!_rentView)
     {
@@ -74,7 +74,7 @@
     return _rentView;
 }
 
--(NSMutableArray *)defaultArray
+- (NSMutableArray *)defaultArray
 {
     if (!_defaultArray)
     {
@@ -83,7 +83,7 @@
     return _defaultArray;
 }
 
--(UIView *)line
+- (UIView *)line
 {
     if (!_line)
     {
@@ -93,7 +93,7 @@
     return _line;
 }
 
--(UIView *)transparentView
+- (UIView *)transparentView
 {
     if (!_transparentView)
     {
@@ -107,7 +107,7 @@
     return _transparentView;
 }
 
--(UIView *)TriangleView
+- (UIView *)TriangleView
 {
     if (!_TriangleView)
     {
@@ -160,7 +160,7 @@
     [self createOtherView];
 }
 //创建菜单数据
--(void)createMenuView
+- (void)createMenuView
 {
     for (int i = 0; i < self.defaultArray.count; i++)
     {
@@ -184,7 +184,7 @@
     [self.superview addSubview:self.TriangleView];
 }
 //创建其他视图
--(void)createOtherView
+- (void)createOtherView
 {
     WeakSelf(weakSelf)
     self.typeView.sendUploadDataBlock = ^(NSMutableDictionary *uploadDic){ //类型
@@ -304,7 +304,7 @@
 }
 #pragma mark Animation
 //动画处理 1
--(void)btnAnmAnimationChangeFirst:(MyselfBtn *)button WithName:(NSString *)name
+- (void)btnAnmAnimationChangeFirst:(MyselfBtn *)button WithName:(NSString *)name
 {
     [UIView animateWithDuration:0.3f animations:^{
 
@@ -320,7 +320,7 @@
     }];
 }
 //动画处理2
--(void)btnAnmAnimationChangeSecond:(MyselfBtn *)button WithName:(NSString *)name
+- (void)btnAnmAnimationChangeSecond:(MyselfBtn *)button WithName:(NSString *)name
 {
     [UIView animateWithDuration:0.3f animations:^{
         
@@ -337,7 +337,7 @@
 }
 
 //判断用户是否开启定位
--(BOOL)isLocationServiceOpen
+- (BOOL)isLocationServiceOpen
 {
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied){
         return NO;
@@ -349,7 +349,7 @@
 
 
 //透明部分点击
--(void)transparentClick
+- (void)transparentClick
 {
      [UIView animateWithDuration:1.5f animations:^{
          

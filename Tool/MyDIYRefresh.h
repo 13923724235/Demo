@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, RefreshType) {
     RefreshTypeHeader, //只有下拉刷新
@@ -15,27 +16,20 @@ typedef NS_ENUM(NSUInteger, RefreshType) {
     RefreshTypeDIYHeaderWithFooter, //自定义上下拉刷新
 };;
 
-typedef void (^headerRefreshBlock)(void);
-typedef void (^footerRefreshBlock)(void);
-
 @interface MyDIYRefresh : NSObject
 
-@property (nonatomic, copy) headerRefreshBlock headerBlock;
-@property (nonatomic, copy) footerRefreshBlock footerBlock;
-
 /**
- *  单利实例化
+ 上下拉刷新调用方式
+ 
+ @param scrollView scrollView
+ @param refreshType 刷新类型
+ @param headerRefresh 下拉回调
+ @param footerRefresh 上拉回调
  */
-+ (instancetype)shareRefresh;
-
-/**
- *  上下拉刷新调用方式
- *  @param scrollView  scrollView
- *  @param refreshType 刷新类型
- *  @param headerBlock 下拉回调
- *  @param footerBlock 上拉回调
- */
-- (void)refreshView:(UIScrollView *)scrollView refreshType:(RefreshType)refreshType headerRefreshBlock:(headerRefreshBlock)headerBlock footerRefreshBlock:(footerRefreshBlock)footerBlock;
+- (void)refreshView:(UIScrollView *)scrollView
+       refreshType:(RefreshType)refreshType
+       headerRefreshBlock:(void(^)(void))headerRefresh
+       footerRefreshBlock:(void(^)(void))footerRefresh;
 
 
 /**
@@ -43,15 +37,19 @@ typedef void (^footerRefreshBlock)(void);
  */
 - (void)beginRefreshing;
 
+
 /**
  下拉结束刷新
  */
 - (void)headerEndRefreshing;
 
+
+
 /**
  上拉结束刷新
  */
 - (void)footerEndRefreshing;
+
 
 /**
  上拉结束刷新 没有更多数据

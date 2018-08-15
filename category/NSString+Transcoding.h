@@ -15,7 +15,7 @@
  *  @param originalString 传入的字符串
   * @param stringEncoding 转义类型
  */
-+(NSString*)urlEncode:(NSString *)originalString
++ (NSString*)urlEncode:(NSString *)originalString
        stringEncoding:(NSStringEncoding)stringEncoding;
 
 @end

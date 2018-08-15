@@ -26,7 +26,7 @@
         model.subway_line = @"0";
         model.subway_id = @"0";
         model.metter = @"0";
-        model.uploadType = RequestReginType;
+        model.uploadType = RequestUploadTypeRegion;
     }
     else if ([type isEqualToString:DEFAULTREGINNAME])//区域
     {
@@ -47,7 +47,7 @@
         model.subway_line = @"0";
         model.subway_id = @"0";
         model.metter = @"0";
-        model.uploadType = RequestReginType;
+        model.uploadType = RequestUploadTypeRegion;
     }
     else if ([type isEqualToString:JIEYUNNAME])//捷运
     {
@@ -68,7 +68,7 @@
         model.regionid = @"0";
         model.sectionid = @"0";
         model.metter = @"0";
-        model.uploadType = RequestJieYunType;
+        model.uploadType = RequestUploadTypeJieYun;
     }
     else if ([type isEqualToString:NEARBYMNAME])//附近
     {
@@ -83,7 +83,7 @@
         model.sectionid = @"0";
         model.subway_line = @"0";
         model.subway_id = @"0";
-        model.uploadType = RequestNearbyType;
+        model.uploadType = RequestUploadTypeNearby;
     }
     
    

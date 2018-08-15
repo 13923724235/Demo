@@ -41,7 +41,7 @@
     return _historyListTableView;
 }
 
--(NSMutableArray *)historyArray
+- (NSMutableArray *)historyArray
 {
     if (!_historyArray)
     {
@@ -52,7 +52,7 @@
 }
 
 #pragma mark LifeCycle
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
@@ -133,7 +133,7 @@
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor clearColor]];
 }
 
--(void)createUI
+- (void)createUI
 {
     [self.view addSubview:self.historyListTableView];
     
@@ -151,7 +151,7 @@
    
 }
 //初始化数据
--(void)InitializationProcessing
+- (void)InitializationProcessing
 {
     if (self.recordName.length>0)
     {
@@ -175,7 +175,7 @@
 }
 
 #pragma mark Click Events
--(void)backClick
+- (void)backClick
 {
     [self.view endEditing:YES];
     [self.navigationController popViewControllerAnimated:NO];
@@ -204,7 +204,7 @@
     
 }
 //添加历史消息
--(void)addHistoryData:(NSString *)name
+- (void)addHistoryData:(NSString *)name
 {
     NSMutableArray * History = [[NSMutableArray alloc] init];
 
@@ -240,7 +240,7 @@
     return 40;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.historyArray.count;
 }
@@ -268,7 +268,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -284,7 +284,7 @@
     [self.navigationController popViewControllerAnimated:NO];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == self.historyArray.count-1)
     {
@@ -294,7 +294,7 @@
     return 0.0f;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if (section == self.historyArray.count-1)
     {
@@ -312,7 +312,7 @@
     
 }
 //清空历史记录
--(void)clearHistoryData
+- (void)clearHistoryData
 {
      [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"HistoryData"];
     
@@ -324,7 +324,7 @@
 
 #pragma mark Cancel The Keyboard
 // 滑动 取消第一响应者 一般用来隐藏键盘
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
 }

@@ -21,7 +21,7 @@ static NetworkRequest *requestManager;
 @implementation NetworkRequest
 
 
-+(instancetype)shareInstance
++ (instancetype)shareInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -37,7 +37,7 @@ static NetworkRequest *requestManager;
                  success:(successBlock)success
                  failure:(failureBlock)failure
 {
-    [self requestWithUrl:urlStr withDic:nil requestType:RequestTypeGet isCache:NO cacheKey:nil upLoadProgress:nil success:^(id responseObject) {
+    [self requestWithUrl:urlStr withDic:nil requestType:RequestTypeGet isCache:NO cacheKey:@"" upLoadProgress:nil success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSString *errorInfo) {
         failure(@"请求失败");
@@ -50,7 +50,10 @@ static NetworkRequest *requestManager;
                   success:(successBlock)success
                   failure:(failureBlock)failure
 {
-    [self requestWithUrl:urlStr withDic:parameters requestType:RequestTypePost isCache:NO cacheKey:nil upLoadProgress:nil success:^(id responseObject) {
+    
+    [self requestWithUrl:urlStr withDic:parameters requestType:RequestTypePost isCache:NO cacheKey:@"" upLoadProgress:^(float progress) {
+        
+    } success:^(id responseObject) {
         success(responseObject);
     } failure:^(NSString *errorInfo) {
         failure(@"请求失败");
@@ -64,7 +67,7 @@ static NetworkRequest *requestManager;
  *  @param cacheKey  缓存key 以url为key存储
  *  @param loadProgress 进度条
  */
--(void)requestWithUrl:(NSString *)url withDic:(NSDictionary *)parameters requestType:(RequestType)requestType  isCache:(BOOL)isCache  cacheKey:(NSString *)cacheKey upLoadProgress:(loadProgress)loadProgress success:(successBlock)success failure:(failureBlock)failure
+- (void)requestWithUrl:(NSString *)url withDic:(NSDictionary *)parameters requestType:(RequestType)requestType  isCache:(BOOL)isCache  cacheKey:(NSString *)cacheKey upLoadProgress:(loadProgress)loadProgress success:(successBlock)success failure:(failureBlock)failure
 {
     
     AFHTTPSessionManager * manager =[AFHTTPSessionManager manager];

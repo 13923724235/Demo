@@ -10,7 +10,7 @@
 
 @implementation HistoryCell
 
--(UIImageView *)historyIcon
+- (UIImageView *)historyIcon
 {
     if (!_historyIcon)
     {
@@ -22,7 +22,7 @@
     return _historyIcon;
 }
 
--(UILabel *)historyContent
+- (UILabel *)historyContent
 {
     if (!_historyContent)
     {
@@ -35,7 +35,7 @@
     return _historyContent;
 }
 
--(UIView *)line
+- (UIView *)line
 {
     if (!_line)
     {
@@ -48,7 +48,7 @@
 
 
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
@@ -58,7 +58,7 @@
     return self;
 }
 
--(void)createUI
+- (void)createUI
 {
     [self.contentView addSubview:self.historyIcon];
     [self.contentView addSubview:self.historyContent];

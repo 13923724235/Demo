@@ -34,12 +34,12 @@
 }
 
 //重写归档方法
--(void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [self yy_modelEncodeWithCoder:aCoder];
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
 

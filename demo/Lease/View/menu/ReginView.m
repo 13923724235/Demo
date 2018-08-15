@@ -87,7 +87,7 @@
     return _threeTbaleView;
 }
 
--(NSMutableArray *)regionDefaultArray
+- (NSMutableArray *)regionDefaultArray
 {
     if (!_regionDefaultArray)
     {
@@ -99,7 +99,7 @@
 }
 
 
--(NSMutableArray *)regionAllDataArray
+- (NSMutableArray *)regionAllDataArray
 {
     if (!_regionAllDataArray)
     {
@@ -110,7 +110,7 @@
     return _regionAllDataArray;
 }
 
--(NSMutableArray *)jieyunAllDataArray
+- (NSMutableArray *)jieyunAllDataArray
 {
     if (!_jieyunAllDataArray)
     {
@@ -121,7 +121,7 @@
     return _jieyunAllDataArray;
 }
 
--(NSMutableArray *)nearbyAllDataArray
+- (NSMutableArray *)nearbyAllDataArray
 {
     if (!_nearbyAllDataArray)
     {
@@ -140,7 +140,7 @@
     {
         self.backgroundColor =[UIColor jk_colorWithHexString:@"e7e7e7"];
 
-        self.selecType = ReginType;
+        self.selecType = ReginListSelectTpyeRegin;
         recordSelectIndex= 0;
         
         [self.regionDefaultArray removeAllObjects];
@@ -186,7 +186,7 @@
     
 }
 
--(void)creteUI
+- (void)creteUI
 {
     [self addSubview:self.firstTbaleView];
     [self addSubview:self.secondTbaleView];
@@ -222,7 +222,7 @@
     return 44;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (tableView == self.firstTbaleView)
     {
@@ -277,16 +277,16 @@
     else if(tableView == self.secondTbaleView)
     {
         RegionModel * newmodel = nil;
-        if (self.selecType == RequestReginType)//区域
+        if (self.selecType == ReginListSelectTpyeRegin)//区域
         {
             newmodel = self.regionAllDataArray[indexPath.section];
             
         }
-        else if (self.selecType == JieYunType)//捷运
+        else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
         {
             newmodel = self.jieyunAllDataArray[indexPath.section];
         }
-        else if (self.selecType == NearbyType)//附近
+        else if (self.selecType == ReginListSelectTpyeNearby)//附近
         {
             newmodel = self.nearbyAllDataArray[indexPath.section];
         }
@@ -297,11 +297,11 @@
     else if (tableView == self.threeTbaleView)
     {
         RegionModel * newmodel = nil;
-        if (self.selecType == RequestReginType)//区域
+        if (self.selecType == ReginListSelectTpyeRegin)//区域
         {
             newmodel = self.regionAllDataArray[recordSelectIndex];
         }
-        else if (self.selecType == JieYunType)//捷运
+        else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
         {
             newmodel = self.jieyunAllDataArray[recordSelectIndex];
         }
@@ -312,7 +312,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -334,7 +334,7 @@
 }
 
 //第一个数据列表改变
--(void)firstDataChange:(NSIndexPath *)indexPath
+- (void)firstDataChange:(NSIndexPath *)indexPath
 {
     
     WeakSelf(weakSelf)
@@ -373,11 +373,11 @@
 }
 
 //第二个列表数据改变
--(void)secondDataChange:(NSIndexPath *)indexPath
+- (void)secondDataChange:(NSIndexPath *)indexPath
 {
     WeakSelf(weakSelf)
     
-    if (self.selecType == ReginType)//区域
+    if (self.selecType == ReginListSelectTpyeRegin)//区域
     {
         [self.regionAllDataArray enumerateObjectsUsingBlock:^(RegionModel * model, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -400,7 +400,7 @@
             }
         }];
     }
-    else if (self.selecType == JieYunType)//捷运
+    else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
     {
         [self.jieyunAllDataArray enumerateObjectsUsingBlock:^(RegionModel * model, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -415,7 +415,7 @@
             }
         }];
     }
-    else if (self.selecType == NearbyType)//附近
+    else if (self.selecType == ReginListSelectTpyeNearby)//附近
     {
         [self.nearbyAllDataArray enumerateObjectsUsingBlock:^(RegionModel * model, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -432,18 +432,18 @@
     }
 }
 //第三列数据变换
--(void)threeDataChange:(NSIndexPath *)indexPath
+- (void)threeDataChange:(NSIndexPath *)indexPath
 {
     
     WeakSelf(weakSelf)
     
     NSMutableArray * array =[[NSMutableArray alloc] init];
     
-    if (self.selecType == ReginType)//区域
+    if (self.selecType == ReginListSelectTpyeRegin)//区域
     {
         array = self.regionAllDataArray;
     }
-    else if (self.selecType == JieYunType)//捷运
+    else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
     {
          array = self.jieyunAllDataArray;
     }
@@ -489,7 +489,7 @@
 }
 
 //变成三列
--(void)changeThreeList
+- (void)changeThreeList
 {
     CGFloat clearance = 0.5;
     CGFloat TabWidth = SCREEN_WIDTH/3 - clearance*2;
@@ -511,7 +511,7 @@
   
 }
 //变成两列
--(void)changeTwoList
+- (void)changeTwoList
 {
     CGFloat clearance = 0.5;
     CGFloat TabWidth = SCREEN_WIDTH/2-clearance;
@@ -531,17 +531,17 @@
 }
 
 //第二个列表个数
--(NSInteger)getSecondTableiViewSectionCount
+- (NSInteger)getSecondTableiViewSectionCount
 {
-    if (self.selecType == RequestReginType)//区域
+    if (self.selecType == ReginListSelectTpyeRegin)//区域
     {
         return self.regionAllDataArray.count;
     }
-    else if (self.selecType == JieYunType)//捷运
+    else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
     {
         return self.jieyunAllDataArray.count;
     }
-    else if (self.selecType == NearbyType)//附近
+    else if (self.selecType == ReginListSelectTpyeNearby)//附近
     {
         return self.nearbyAllDataArray.count;
     }
@@ -549,14 +549,14 @@
     return  0;
 }
 //第三列表个数
--(NSInteger)getThreeTableiViewSectionCount
+- (NSInteger)getThreeTableiViewSectionCount
 {
     NSMutableArray * array = [[NSMutableArray alloc] init];
-    if (self.selecType == RequestReginType)//区域
+    if (self.selecType == ReginListSelectTpyeRegin)//区域
     {
         array = [self.regionAllDataArray copy];
     }
-    else if (self.selecType == JieYunType)//捷运
+    else if (self.selecType == ReginListSelectTpyeJieYun)//捷运
     {
         array = [self.jieyunAllDataArray copy];
     }
@@ -574,7 +574,7 @@
 
 #pragma mark Send Data
 //发送区域不限数据
--(void)sendReginUnlimitedData
+- (void)sendReginUnlimitedData
 {
     [self changeTwoList];
     
@@ -597,7 +597,7 @@
     }
 }
 //发送附近数据
--(void)sendNearbyDataWithModel:(RegionModel *)model
+- (void)sendNearbyDataWithModel:(RegionModel *)model
 {
     if (self.sendTitleBlock)
     {
@@ -626,7 +626,7 @@
 }
 
 //发送三级菜单数据
--(void)sendThreeLsitDataWithModel:(RegionModel *)model withSecondModel:(RegionModel *)secondModel withType:(ReginListSelectTpye)type
+- (void)sendThreeLsitDataWithModel:(RegionModel *)model withSecondModel:(RegionModel *)secondModel withType:(ReginListSelectTpye)type
 {
     if (self.sendDataBlock)
     {
@@ -637,11 +637,11 @@
     {
         NSMutableDictionary * dic =[[NSMutableDictionary alloc] init];
         
-        if (type == ReginType)
+        if (type == ReginListSelectTpyeRegin)
         {
             [dic setObject:DEFAULTREGINNAME forKey:@"type"];
         }
-        else if(type == JieYunType)
+        else if(type == ReginListSelectTpyeJieYun)
         {
             [dic setObject:JIEYUNNAME forKey:@"type"];
         }

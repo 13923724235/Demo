@@ -26,7 +26,7 @@ static AnalyticPlistData *analyShareManager;
     
 }
 #pragma mark --获取文件位置
--(NSMutableDictionary *)getPlistFile
+- (NSMutableDictionary *)getPlistFile
 {
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *filePath = [bundle pathForResource:@"region" ofType:@"plist"];
@@ -326,7 +326,7 @@ static AnalyticPlistData *analyShareManager;
 }
 
 //排序
--(NSMutableArray *)regionSortData:(NSMutableArray *)array withSortArray:(NSMutableArray *)sortarray
+- (NSMutableArray *)regionSortData:(NSMutableArray *)array withSortArray:(NSMutableArray *)sortarray
 {
     NSMutableArray * NewArray =[[NSMutableArray alloc] init];
     

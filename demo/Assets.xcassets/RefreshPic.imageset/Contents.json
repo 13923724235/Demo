@@ -11,11 +11,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "RefreshPic@3x.png",
       "scale" : "3x"
     },
     {
       "idiom" : "universal",
+      "filename" : "RefreshPic@3x.png",
+      "unassigned" : true,
       "scale" : "3x"
     }
   ],

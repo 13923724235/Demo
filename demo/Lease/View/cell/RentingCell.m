@@ -10,7 +10,7 @@
 
 @implementation RentingCell
 
--(UIImageView *)photo
+- (UIImageView *)photo
 {
     if (!_photo)
     {
@@ -21,7 +21,7 @@
     return _photo;
 }
 
--(UIImageView *)typePhoto
+- (UIImageView *)typePhoto
 {
     if (!_typePhoto)
     {
@@ -32,7 +32,7 @@
     return _typePhoto;
 }
 
--(UIImageView *)is_onlinePhoto
+- (UIImageView *)is_onlinePhoto
 {
     if (!_is_onlinePhoto)
     {
@@ -43,7 +43,7 @@
     return _is_onlinePhoto;
 }
 
--(UILabel *)titleLabel
+- (UILabel *)titleLabel
 {
     if (!_titleLabel)
     {
@@ -56,7 +56,7 @@
     return _titleLabel;
 }
 
--(UILabel *)addressLabel
+- (UILabel *)addressLabel
 {
     if (!_addressLabel)
     {
@@ -69,7 +69,7 @@
     return _addressLabel;
 }
 
--(UILabel *)arearessLabel
+- (UILabel *)arearessLabel
 {
     if (!_arearessLabel)
     {
@@ -83,7 +83,7 @@
 }
 
 
--(UILabel *)priceLabel
+- (UILabel *)priceLabel
 {
     if (!_priceLabel)
     {
@@ -96,7 +96,7 @@
     return _priceLabel;
 }
 
--(UIView *)line
+- (UIView *)line
 {
     if (!_line)
     {
@@ -108,7 +108,7 @@
 }
 
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
@@ -118,7 +118,7 @@
     return self;
 }
 
--(void)createUI
+- (void)createUI
 {
     [self.contentView addSubview:self.photo];
     [self.contentView addSubview:self.typePhoto];
@@ -200,7 +200,7 @@
     
 }
 
--(void)setModel:(DataModel *)model
+- (void)setModel:(DataModel *)model
 {
     
     [self.photo sd_setImageWithURL:[NSURL URLWithString:model.photo_src] placeholderImage:[UIImage imageNamed:@"NHPlaceholder.png"]];

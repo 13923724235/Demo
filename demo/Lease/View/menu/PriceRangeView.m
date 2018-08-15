@@ -11,7 +11,7 @@
 @implementation PriceRangeView
 
 #pragma mark Lazy load
--(UILabel *)customLabel
+- (UILabel *)customLabel
 {
     if (!_customLabel)
     {
@@ -26,7 +26,7 @@
     return _customLabel;
 }
 
--(UITextField *)minimumPriceField
+- (UITextField *)minimumPriceField
 {
     if (!_minimumPriceField)
     {
@@ -49,7 +49,7 @@
     return _minimumPriceField;
 }
 
--(UITextField *)maximumPriceField
+- (UITextField *)maximumPriceField
 {
     if (!_maximumPriceField)
     {
@@ -72,7 +72,7 @@
     return _maximumPriceField;
 }
 
--(UILabel *)transverselineLanbel
+- (UILabel *)transverselineLanbel
 {
     if (!_transverselineLanbel)
     {
@@ -86,7 +86,7 @@
     return _transverselineLanbel;
 }
 
--(UILabel *)yuanLabel
+- (UILabel *)yuanLabel
 {
     if (!_yuanLabel)
     {
@@ -100,7 +100,7 @@
     return _yuanLabel;
 }
 
--(UIButton *)determineBtn
+- (UIButton *)determineBtn
 {
     if (!_determineBtn)
     {
@@ -117,7 +117,7 @@
 }
 
 #pragma mark init
--(instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     
     if (self == [super initWithFrame:frame])
@@ -129,7 +129,7 @@
     
 }
 
--(void)crerateUI
+- (void)crerateUI
 {
     
     WeakSelf(weakSelf)

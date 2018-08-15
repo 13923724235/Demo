@@ -39,7 +39,7 @@
 }
 
 
--(NSMutableArray *)typeArray
+- (NSMutableArray *)typeArray
 {
     if (!_typeArray)
     {
@@ -65,7 +65,7 @@
     return self;
 }
 
--(void)creteUI
+- (void)creteUI
 {
      [self addSubview:self.firstTbaleView];
     
@@ -97,7 +97,7 @@
     return 1;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     
     return self.typeArray.count;
@@ -123,7 +123,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

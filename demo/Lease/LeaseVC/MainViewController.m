@@ -19,10 +19,10 @@
 
 // 数据处理类型
 typedef NS_ENUM(NSInteger, ModelHandleType) {
-    RentHandleType,
-    typeHandleType,
-    regionHandleType,
-    sortHandleType,
+    ModelHandleTypeRent,
+    ModelHandleTypeType,
+    ModelHandleTypeRegion,
+    ModelHandleTypeSort,
 };
 
 
@@ -40,18 +40,18 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 
 @property (nonatomic, assign) NSInteger TotalNumber; //总件数
 
+@property (nonatomic, strong) MyDIYRefresh *myRefresh;//刷新
+
+@property (nonatomic, strong) SearchView *seview; //搜索
+
+@property (nonatomic, strong) MenuView *menu;//菜单
 @end
 
 @implementation MainViewController
-{
-    SearchView *Seview; //搜索
-    MenuView *Menu; //菜单
-
-}
 
 #pragma mark Lazy load
 
--(SortBtn *)sortBtn
+- (SortBtn *)sortBtn
 {
     if (!_sortBtn)
     {
@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     return _listTableView;
 }
 
--(NSMutableArray *)dataArray
+- (NSMutableArray *)dataArray
 {
     if (!_dataArray)
     {
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 }
 
 #pragma mark LifeCycle
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
@@ -100,11 +100,11 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     
     [self xw_removeAllNotification];
     
-    [Menu transparentClick];
+    [self.menu transparentClick];
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
@@ -126,7 +126,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
      [self createUI];
     [self createMenuView];
     
-    [self.listTableView.mj_header beginRefreshing];
+    [self.myRefresh beginRefreshing];
     
    
 }
@@ -155,10 +155,10 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:backicon];
     
 
-    Seview = [[SearchView alloc]initWithFrame:CGRectMake(0, 10, KIsiPhoneX?260:KWIDTHShiPei 230, 30.0f)];
-    Seview.seaechtextfield.delegate = self;
-    Seview.seaechtextfield.tintColor = [UIColor clearColor];
-    self.navigationController.navigationBar.topItem.titleView = Seview;
+    self.seview = [[SearchView alloc]initWithFrame:CGRectMake(0, 10, KIsiPhoneX?260:KWIDTHShiPei 230, 30.0f)];
+    self.seview.seaechtextfield.delegate = self;
+    self.seview.seaechtextfield.tintColor = [UIColor clearColor];
+    self.navigationController.navigationBar.topItem.titleView = self.seview;
 
     
     UIBarButtonItem *negativeSpacerleft = [[UIBarButtonItem alloc]
@@ -190,7 +190,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 
 
 //加载菜单
--(void)createMenuView
+- (void)createMenuView
 {
     WeakSelf(weakSelf)
     NSArray * titleArray =@[@"區域",@"類型",@"租金",@"更多"];
@@ -224,58 +224,58 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
         [allReginArray removeLastObject];
     }
     
-    Menu =[[MenuView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44) withMenuTile:titleArray withFaterView:self.view];
+    self.menu =[[MenuView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44) withMenuTile:titleArray withFaterView:self.view];
 
     //类型数据
     NSMutableArray * typeArray = [[AnalyticPlistData shareInstance] getTpyePlistData];
     //租金数据
     NSMutableArray * priceArray = [[AnalyticPlistData shareInstance] getRentPricePlistData];
 
-    [Menu getrRegionRawDataWithDefaultArr:reginAllTitleArray reginAllArray:allReginArray typeArray:typeArray rentArray:priceArray];
+    [self.menu getrRegionRawDataWithDefaultArr:reginAllTitleArray reginAllArray:allReginArray typeArray:typeArray rentArray:priceArray];
 
-    Menu.backRrginDataBlock = ^(NSMutableDictionary * uploadDic)//上传区域数据
+    self.menu.backRrginDataBlock = ^(NSMutableDictionary * uploadDic)//上传区域数据
     {
-       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:regionHandleType];
+       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:ModelHandleTypeRegion];
     };
     
-    Menu.backTypeDataBlock = ^(NSMutableDictionary *uploadDic)//上传类型数据
+    self.menu.backTypeDataBlock = ^(NSMutableDictionary *uploadDic)//上传类型数据
     {
-       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:typeHandleType];
+       [weakSelf modelDataEndowingWithDic:uploadDic withDataType:ModelHandleTypeType];
     };
     
-    Menu.backRentDataBlock = ^(NSMutableDictionary *uploadDic)//上传租金数据
+    self.menu.backRentDataBlock = ^(NSMutableDictionary *uploadDic)//上传租金数据
     {
-        [weakSelf modelDataEndowingWithDic:uploadDic withDataType:RentHandleType];
+        [weakSelf modelDataEndowingWithDic:uploadDic withDataType:ModelHandleTypeRent];
     };
 }
 //数据赋予
--(void)modelDataEndowingWithDic:(NSMutableDictionary *)dic withDataType:(ModelHandleType)type
+- (void)modelDataEndowingWithDic:(NSMutableDictionary *)dic withDataType:(ModelHandleType)type
 {
     [self.dataArray removeAllObjects];
     self.page = 1;
     
     if (dic)
     {
-        if(type == RentHandleType){
+        if(type == ModelHandleTypeRent){
             self.upLoadModel = [UploadDataManager uploadRentDataWithModel:self.upLoadModel WithDic:dic];
         }
-        else if (type ==typeHandleType){
+        else if (type ==ModelHandleTypeType){
              self.upLoadModel = [UploadDataManager uploadTypeDataWithModel:self.upLoadModel WithDic:dic];
         }
-        else if (type ==regionHandleType){
+        else if (type ==ModelHandleTypeRegion){
             self.upLoadModel = [UploadDataManager uploadRegionDataWithModel:self.upLoadModel WithDic:dic];
         }
-        else if (type ==sortHandleType){
+        else if (type ==ModelHandleTypeSort){
             self.upLoadModel = [UploadDataManager uploadSortDataWithModel:self.upLoadModel WithDic:dic];
         }
         
         self.upLoadModel.page = [NSString stringWithFormat:@"%ld",(long)self.page];
     }
     
-    [self.listTableView.mj_header beginRefreshing];
+    [self.myRefresh beginRefreshing];
 }
 
--(void)createUI
+- (void)createUI
 {
     [self.view addSubview:self.listTableView];
     
@@ -290,7 +290,9 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
         
     }];
     
-    [[MyDIYRefresh shareRefresh] refreshView:self.listTableView refreshType:RefreshTypeDIYHeaderWithFooter headerRefreshBlock:^{
+     self.myRefresh =[[MyDIYRefresh alloc] init];
+    
+    [self.myRefresh refreshView:self.listTableView refreshType:RefreshTypeDIYHeaderWithFooter headerRefreshBlock:^{
         
         weakSelf.page = 1;
         [weakSelf.dataArray removeAllObjects];
@@ -315,7 +317,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 #pragma mark Click Events
 
 //排序点击事件
--(void)sortClick
+- (void)sortClick
 {
     WeakSelf(weakSelf)
     
@@ -325,7 +327,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
       
       sort.sendUploadDataBlock = ^(NSMutableDictionary *uploadDic)//上传排序数据
       {
-          [weakSelf modelDataEndowingWithDic:uploadDic withDataType:sortHandleType];
+          [weakSelf modelDataEndowingWithDic:uploadDic withDataType:ModelHandleTypeSort];
       };
       AppDelegate *myDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -337,29 +339,22 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
 
     WeakSelf(weakSelf)
-
-    __strong typeof(weakSelf) strongSelf = weakSelf;
-
     [textField resignFirstResponder];
     
     SearchViewController * search =[[SearchViewController alloc] init];
     
-    if (Seview.seaechtextfield.text.length > 0)
+    if (self.seview.seaechtextfield.text.length > 0)
     {
-        search.recordName = Seview.seaechtextfield.text;
+        search.recordName = self.seview.seaechtextfield.text;
     }
     
     search.searchNameBlock = ^(NSString *name) {
         
         [weakSelf.dataArray removeAllObjects];
-        
         weakSelf.page = 1;
-        
-         strongSelf->Seview.seaechtextfield.text = name;
-        
+        weakSelf.seview.seaechtextfield.text = name;
         weakSelf.upLoadModel.keywords = name;
-        
-         [weakSelf.listTableView.mj_header beginRefreshing];
+        [weakSelf.myRefresh beginRefreshing];
         
     };
     [self.navigationController pushViewController:search animated:YES];
@@ -373,7 +368,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     return 105;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count;
 }
@@ -409,13 +404,13 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
      [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 //判断用户是否开启定位
--(BOOL)isLocationServiceOpen
+- (BOOL)isLocationServiceOpen
 {
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
     {
@@ -427,23 +422,19 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
     }
 }
 
-//下拉刷新数据
--(void)loadNewData
-{
 
-}
 #pragma mark 网络请求
--(void)getListRequest
+- (void)getListRequest
 {
     WeakSelf(weakSelf)
     
     LeaseViewModel * leaseModel = [[LeaseViewModel alloc] init];
     
-    [leaseModel setBlockWithRequestType:ListRequest withSuccessBlock:^(NSMutableDictionary *dic) {
+    [leaseModel setBlockWithRequestType:RequsetTypeRequest withSuccessBlock:^(NSMutableDictionary *dic) {
         
         if (dic) {
-
-             NSString * records = dic[@"records"];
+            
+            NSString * records = dic[@"records"];
             NSMutableArray * dataArray =dic[@"modelArray"];
             
             if (records.length > 0 && weakSelf.page == 1){
@@ -453,7 +444,7 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
             }
             else
             {
-                  [weakSelf.dataArray addObjectsFromArray:dataArray];
+                [weakSelf.dataArray addObjectsFromArray:dataArray];
             }
             
             if (weakSelf.dataArray.count >= records.integerValue){
@@ -464,19 +455,19 @@ typedef NS_ENUM(NSInteger, ModelHandleType) {
             }
         }
         
-        [weakSelf.listTableView.mj_header endRefreshing];
-        [weakSelf.listTableView.mj_footer endRefreshing];
+        [weakSelf.myRefresh headerEndRefreshing];
+        [weakSelf.myRefresh footerEndRefreshing];
         [weakSelf.listTableView reloadData];
         
     } withFailureBlock:^(NSString *error) {
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.listTableView.mj_header endRefreshing];
-            [weakSelf.listTableView.mj_footer endRefreshing];
+            [weakSelf.myRefresh headerEndRefreshing];
+            [weakSelf.myRefresh footerEndRefreshing];
         });
-    }];
+        
+    } withLeaseMoldel:self.upLoadModel];
     
-    [leaseModel getLeaseListDataWithModel:self.upLoadModel];
 }
 
 #pragma mark ----- DZNEmptyDataSetSource

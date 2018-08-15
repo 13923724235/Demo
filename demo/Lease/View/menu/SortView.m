@@ -37,7 +37,7 @@
     return _listTableView;
 }
 
--(UIView *)bgView
+- (UIView *)bgView
 {
     if (!_bgView)
     {
@@ -54,7 +54,7 @@
 }
 
 
--(NSMutableArray *)sortArray
+- (NSMutableArray *)sortArray
 {
     if (!_sortArray)
     {
@@ -80,7 +80,7 @@
 }
 
 //创建视图
--(void)creteUI
+- (void)creteUI
 {
     WeakSelf(weakSelf)
     
@@ -106,7 +106,7 @@
  
 }
 #pragma mark Click Events
--(void)bgviewClick
+- (void)bgviewClick
 {
      [self removeFromSuperview];
 }
@@ -123,7 +123,7 @@
     return 1;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     
     return self.sortArray.count;
@@ -150,7 +150,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

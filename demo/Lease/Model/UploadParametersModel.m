@@ -12,7 +12,7 @@
 @implementation UploadParametersModel
 
 
--(instancetype)init
+- (instancetype)init
 {
     if (self == [super init])
     {
@@ -29,7 +29,7 @@
         self.minprice = @"";
         self.maxprice = @"";
         self.page = @"1";
-        self.uploadType = RequestReginType;
+        self.uploadType = RequestUploadTypeRegion;
     }
     
     return self;
@@ -49,7 +49,7 @@
         
     }
     
-    if (model.uploadType == RequestReginType)
+    if (model.uploadType == RequestUploadTypeRegion)
     {
         [dic setObject:model.kind forKey:@"kind"];
         [dic setObject:model.regionid forKey:@"regionid"];
@@ -57,7 +57,7 @@
         [dic setObject:model.sectionid forKey:@"sectionid"];
         [dic setObject:@"1" forKey:@"searchtype"];
     }
-    else if (model.uploadType == RequestJieYunType)
+    else if (model.uploadType == RequestUploadTypeJieYun)
     {
         [dic setObject:model.subway_id forKey:@"subway_id"];
         [dic setObject:model.subway_line forKey:@"subway_line"];
@@ -65,7 +65,7 @@
         [dic setObject:model.sectionid forKey:@"sectionid"];
         [dic setObject:@"2" forKey:@"searchtype"];
     }
-    else if (model.uploadType == RequestNearbyType)
+    else if (model.uploadType == RequestUploadTypeNearby)
     {
         AppDelegate * appdelegate =(AppDelegate *)[UIApplication sharedApplication].delegate;
         

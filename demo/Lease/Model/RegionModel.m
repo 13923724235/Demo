@@ -28,7 +28,7 @@
     return @[@"titleName",@"number",@"isSelect",@"secondArray",];  // 不同的属性之间用 ',' 隔开
 }
 
--(instancetype)init
+- (instancetype)init
 {
     if (self == [super init])
     {
@@ -38,12 +38,12 @@
     return self;
 }
 //重写归档方法
--(void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [self yy_modelEncodeWithCoder:aCoder];
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
 

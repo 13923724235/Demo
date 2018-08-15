@@ -11,7 +11,7 @@
 @implementation Menulistcell
 
 
--(UILabel *)titleLabel
+- (UILabel *)titleLabel
 {
     if (!_titleLabel)
     {
@@ -24,7 +24,7 @@
     return _titleLabel;
 }
 
--(UIView *)line
+- (UIView *)line
 {
     if (!_line)
     {
@@ -36,7 +36,7 @@
 }
 
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
@@ -46,7 +46,7 @@
     return self;
 }
 
--(void)createUI
+- (void)createUI
 {
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.line];
@@ -75,7 +75,7 @@
     
 }
 
--(void)setModel:(RegionModel *)model
+- (void)setModel:(RegionModel *)model
 {
     NSString * select = model.isSelect;
     
@@ -91,7 +91,7 @@
     self.titleLabel.text = model.titleName;
 }
 
--(void)setTemoDic:(NSMutableDictionary *)temoDic
+- (void)setTemoDic:(NSMutableDictionary *)temoDic
 {
     NSString * select = temoDic[@"Select"];
     

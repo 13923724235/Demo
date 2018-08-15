@@ -9,24 +9,20 @@
 #import "MyDIYRefresh.h"
 
 static NSString * const scrollKey= @"scrollKey";
+static NSString * const headerBlockKey= @"headerBlockKey";
+static NSString * const footerBlockKey= @"footerBlockKey";
 static MyDIYRefresh *refresh = nil;
 
 @implementation MyDIYRefresh
 
-+(instancetype)shareRefresh
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        refresh = [[self alloc] init];
-    });
-    return refresh;
-}
-
-- (void)refreshView:(UIScrollView *)scrollView refreshType:(RefreshType)refreshType headerRefreshBlock:(headerRefreshBlock)headerBlock footerRefreshBlock:(footerRefreshBlock)footerBlock
+- (void)refreshView:(UIScrollView *)scrollView
+       refreshType:(RefreshType)refreshType
+headerRefreshBlock:(void(^)(void))headerRefresh
+footerRefreshBlock:(void(^)(void))footerRefresh
 {
     objc_setAssociatedObject(self, &scrollKey, scrollView, OBJC_ASSOCIATION_RETAIN);
-    _headerBlock = headerBlock;
-    _footerBlock = footerBlock;
+    objc_setAssociatedObject(self, &headerBlockKey, headerRefresh, OBJC_ASSOCIATION_COPY);
+    objc_setAssociatedObject(self, &footerBlockKey, footerRefresh, OBJC_ASSOCIATION_COPY);
     
     switch (refreshType) {
             
@@ -54,61 +50,68 @@ static MyDIYRefresh *refresh = nil;
     
 }
 //默认拉下刷新
--(void)headerRefreshMethod
+- (void)headerRefreshMethod
 {
+    void (^headerBlock)(void) = ^{};
+    headerBlock = objc_getAssociatedObject(self, &headerBlockKey);
     [self scrollView].mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        if (self.headerBlock)
+        if (headerBlock)
         {
-            self.headerBlock();
+            headerBlock();
         }
     }];
 }
 //默认加载更多
--(void)footerRefreshMethod
+- (void)footerRefreshMethod
 {
-    [self scrollView].mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        if (self.footerBlock)
+    void (^footerBlock)(void) = ^{};
+    footerBlock = objc_getAssociatedObject(self, &footerBlockKey);
+    [self scrollView].mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        if (footerBlock)
         {
-            self.footerBlock();
+            footerBlock();
         }
     }];
 }
 
 //自定义下拉刷新
--(void)diyHeaderRefreshMethod
+- (void)diyHeaderRefreshMethod
 {
     [self scrollView].mj_header =[MyDIYHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 }
 
--(void)loadNewData
+- (void)loadNewData
 {
-    if (self.headerBlock)
+    void (^headerBlock)(void) = ^{};
+    headerBlock = objc_getAssociatedObject(self, &headerBlockKey);
+    
+    if (headerBlock)
     {
-        self.headerBlock();
+        headerBlock();
     }
 }
 
--(void)beginRefreshing
+- (void)beginRefreshing
 {
     [[self scrollView].mj_header beginRefreshing];
 }
 
--(void)headerEndRefreshing
+- (void)headerEndRefreshing
 {
     [[self scrollView].mj_header endRefreshing];
 }
 
--(void)footerEndRefreshing
+- (void)footerEndRefreshing
 {
     [[self scrollView].mj_footer endRefreshing];
 }
 
--(void)footerEndRefreshingWithNoMoreData
+- (void)footerEndRefreshingWithNoMoreData
 {
     [[self scrollView].mj_footer endRefreshingWithNoMoreData];
 }
 
--(UIScrollView *)scrollView
+- (UIScrollView *)scrollView
 {
     return (UIScrollView *)objc_getAssociatedObject(self, &scrollKey);
 }

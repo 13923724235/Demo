@@ -11,7 +11,7 @@
 @implementation SearchView
 
 #pragma mark Lazy load
--(UIView *)bgView
+- (UIView *)bgView
 {
     if (!_bgView)
     {
@@ -23,7 +23,7 @@
     return _bgView;
 }
 
--(UIImageView *)searchIcon
+- (UIImageView *)searchIcon
 {
     if (!_searchIcon)
     {
@@ -34,7 +34,7 @@
     return _searchIcon;
 }
 
--(UITextField *)seaechtextfield
+- (UITextField *)seaechtextfield
 {
     if (!_seaechtextfield)
     {
@@ -54,7 +54,7 @@
 }
 
 #pragma mark init
--(instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     if (self == [super initWithFrame:frame])
     {
@@ -65,7 +65,7 @@
 }
 
 
--(void)createUI
+- (void)createUI
 {
  
     self.bgView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));

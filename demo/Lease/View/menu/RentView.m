@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) UITableView * firstTbaleView; //列表
 
- @property (nonatomic, strong) PriceRangeView * priceRangeView; //自定义价格View
+@property (nonatomic, strong) PriceRangeView * priceRangeView; //自定义价格View
 
 @end
 
@@ -25,7 +25,7 @@
 
 #pragma mark Lazy load
 
--(PriceRangeView *)priceRangeView
+- (PriceRangeView *)priceRangeView
 {
     if (!_priceRangeView)
     {
@@ -55,7 +55,7 @@
 }
 
 
--(NSMutableArray *)rentArray
+- (NSMutableArray *)rentArray
 {
     if (!_rentArray)
     {
@@ -82,7 +82,7 @@
 }
 
 
--(void)creteUI
+- (void)creteUI
 {
     self.firstTbaleView.hidden = NO;
     self.firstTbaleView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.frame)-BootomHeight);
@@ -105,7 +105,7 @@
 
 
 #pragma mark Click Events
--(void)determineBtnClick
+- (void)determineBtnClick
 {
     
     if (self.priceRangeView.maximumPriceField.text.length > 0 && self.priceRangeView.minimumPriceField.text.length > 0){
@@ -192,7 +192,7 @@
     return 1;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     
     return self.rentArray.count;
@@ -218,7 +218,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

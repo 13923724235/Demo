@@ -10,7 +10,7 @@
 
 @implementation NSString (Transcoding)
 
-+(NSString*)urlEncode:(NSString *)originalString
++ (NSString*)urlEncode:(NSString *)originalString
        stringEncoding:(NSStringEncoding)stringEncoding
 {
     if(originalString==nil || [originalString isEqualToString:@""])

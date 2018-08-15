@@ -11,9 +11,9 @@
 
 // 选中类型
 typedef NS_ENUM(NSInteger, ReginListSelectTpye) {
-    ReginType = 0,
-    JieYunType = 1,
-    NearbyType = 2,
+    ReginListSelectTpyeRegin = 0,
+    ReginListSelectTpyeJieYun = 1,
+    ReginListSelectTpyeNearby = 2,
     
 };
 

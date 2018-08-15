@@ -10,9 +10,9 @@
 
 // 上传方式
 typedef NS_ENUM(NSInteger, RequestUploadType) {
-    RequestReginType = 0,
-    RequestJieYunType = 1,
-    RequestNearbyType = 2,
+    RequestUploadTypeRegion = 0,
+    RequestUploadTypeJieYun = 1,
+    RequestUploadTypeNearby = 2,
     
 };
 

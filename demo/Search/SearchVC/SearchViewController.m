@@ -15,12 +15,10 @@
 
 @property (nonatomic, strong) NSMutableArray *historyArray; //历史数据
 
+@property (nonatomic, strong) SearchView  *seView; //搜索view
 @end
 
 @implementation SearchViewController
-{
-    SearchView  *SeView; //搜索view
-}
 
 #pragma mark Lazy load
 
@@ -97,12 +95,12 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor orangeColor]];
     
 
-    SeView = [[SearchView alloc]initWithFrame:CGRectMake(0, 10,KIsiPhoneX?300:KWIDTHShiPei 250 , 30.0f)];
-    [SeView.seaechtextfield becomeFirstResponder];
-    SeView.seaechtextfield.tintColor = [UIColor whiteColor];
-    SeView.seaechtextfield.returnKeyType = UIReturnKeySearch;
-    SeView.seaechtextfield.delegate = self;//设置代理
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:SeView];
+    self.seView = [[SearchView alloc]initWithFrame:CGRectMake(0, 10,KIsiPhoneX?300:KWIDTHShiPei 250 , 30.0f)];
+    [self.seView.seaechtextfield becomeFirstResponder];
+    self.seView.seaechtextfield.tintColor = [UIColor whiteColor];
+    self.seView.seaechtextfield.returnKeyType = UIReturnKeySearch;
+    self.seView.seaechtextfield.delegate = self;//设置代理
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:self.seView];
     
  
     UIBarButtonItem *negativeSpacerleft = [[UIBarButtonItem alloc]
@@ -155,7 +153,7 @@
 {
     if (self.recordName.length>0)
     {
-        SeView.seaechtextfield.text = self.recordName;
+        self.seView.seaechtextfield.text = self.recordName;
     }
     
     NSMutableArray * History =  [[NSUserDefaults standardUserDefaults]objectForKey:@"HistoryData"];

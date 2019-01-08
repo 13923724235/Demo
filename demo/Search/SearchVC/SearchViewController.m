@@ -146,6 +146,7 @@
         
     }];
     NSLog(@"测试");
+    NSLog(@"1.2");
 }
 //初始化数据
 - (void)InitializationProcessing

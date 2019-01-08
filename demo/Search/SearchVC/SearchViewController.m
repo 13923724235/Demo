@@ -145,8 +145,7 @@
         make.right.mas_equalTo(weakSelf.view.mas_right);
         
     }];
-    
-   
+    NSLog(@"测试");
 }
 //初始化数据
 - (void)InitializationProcessing

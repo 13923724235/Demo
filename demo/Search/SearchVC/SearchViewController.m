@@ -146,6 +146,8 @@
         
     }];
     NSLog(@"测试");
+    
+    NSLog(@"develop====");
 }
 //初始化数据
 - (void)InitializationProcessing

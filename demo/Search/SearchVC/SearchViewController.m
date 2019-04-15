@@ -146,6 +146,10 @@
         
     }];
     NSLog(@"测试");
+    NSLog(@"1.2");
+    
+    
+    //需要回滚的q内容
 }
 //初始化数据
 - (void)InitializationProcessing

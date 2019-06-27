@@ -148,6 +148,13 @@
  
     NSLog(@"这是一个增加消息");
     
+    NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
+     NSLog(@"错误提交数据");
 }
 //初始化数据
 - (void)InitializationProcessing
